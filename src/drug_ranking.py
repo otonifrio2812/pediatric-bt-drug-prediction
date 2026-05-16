@@ -133,25 +133,41 @@ def load_artifacts(intermediates_dir: str | Path = 'intermediates') -> Artifacts
     for cell_id, group_idx in meta_joint.groupby('SANGER_MODEL_ID').groups.items():
         cell_expression_lookup[cell_id] = X_cell_only.iloc[group_idx[0]].copy()
 
-    # Build drug text lookup from meta_joint
+    # Build drug text lookup
+    # Priority 1: stage2b_drug_annotations.parquet (v1.0.1+, has full target/pathway)
+    # Priority 2: fallback to meta_joint columns if annotations file is absent
     drug_text_lookup = {}
-    drug_text_cols = ['DRUG_NAME']
-    if 'PUTATIVE_TARGET' in meta_joint.columns:
-        drug_text_cols.append('PUTATIVE_TARGET')
-    if 'PATHWAY_NAME' in meta_joint.columns:
-        drug_text_cols.append('PATHWAY_NAME')
+    annot_path = d / 'stage2b_drug_annotations.parquet'
 
-    drug_text_df = meta_joint[drug_text_cols].drop_duplicates(
-        subset='DRUG_NAME'
-    ).reset_index(drop=True)
+    if annot_path.exists():
+        # v1.0.1+ path: dedicated drug annotations table (~10 KB)
+        drug_annot = pd.read_parquet(annot_path)
+        for _, r in drug_annot.iterrows():
+            drug_text_lookup[r['DRUG_NAME']] = {
+                'target': r['PUTATIVE_TARGET']
+                          if pd.notna(r.get('PUTATIVE_TARGET', np.nan)) else 'Unknown',
+                'pathway': r['PATHWAY_NAME']
+                           if pd.notna(r.get('PATHWAY_NAME', np.nan)) else 'Unknown',
+            }
+    else:
+        # Fallback: try meta_joint (works only if columns happen to exist)
+        drug_text_cols = ['DRUG_NAME']
+        if 'PUTATIVE_TARGET' in meta_joint.columns:
+            drug_text_cols.append('PUTATIVE_TARGET')
+        if 'PATHWAY_NAME' in meta_joint.columns:
+            drug_text_cols.append('PATHWAY_NAME')
 
-    for _, r in drug_text_df.iterrows():
-        drug_text_lookup[r['DRUG_NAME']] = {
-            'target': r.get('PUTATIVE_TARGET', 'Unknown')
-                      if pd.notna(r.get('PUTATIVE_TARGET', np.nan)) else 'Unknown',
-            'pathway': r.get('PATHWAY_NAME', 'Unknown')
-                       if pd.notna(r.get('PATHWAY_NAME', np.nan)) else 'Unknown',
-        }
+        drug_text_df = meta_joint[drug_text_cols].drop_duplicates(
+            subset='DRUG_NAME'
+        ).reset_index(drop=True)
+
+        for _, r in drug_text_df.iterrows():
+            drug_text_lookup[r['DRUG_NAME']] = {
+                'target': r.get('PUTATIVE_TARGET', 'Unknown')
+                          if pd.notna(r.get('PUTATIVE_TARGET', np.nan)) else 'Unknown',
+                'pathway': r.get('PATHWAY_NAME', 'Unknown')
+                           if pd.notna(r.get('PATHWAY_NAME', np.nan)) else 'Unknown',
+            }
 
     return Artifacts(
         X_joint=X_joint,
