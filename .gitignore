@@ -1,0 +1,93 @@
+# ====== 研究資料相關(重要!不可上傳)======
+
+# 原始資料(受授權限制,使用者自行下載)
+data/raw/
+data/*.xlsx
+data/*.tsv
+data/*.csv
+data/*.txt
+!data/README.md
+
+# 中繼檔(用 GitHub Release 或 Zenodo 分發)
+*.parquet
+*.pkl
+*.joblib
+intermediates/
+outputs/
+
+# 訓練好的模型(GitHub Release)
+*.h5
+*.bin
+*.model
+models/*.json
+
+# === 但允許小型範例資料 ===
+!data/example_*.csv
+!data/sample_*.parquet
+
+
+# ====== Python 標準 ignores ======
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+
+# ====== 虛擬環境 ======
+.venv/
+venv/
+env/
+ENV/
+
+
+# ====== Jupyter Notebook ======
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+
+# ====== 編輯器與 IDE ======
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+
+# ====== OS 系統檔 ======
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+
+# ====== 大型暫存圖片(視情況)======
+*.png.bak
+*_tmp.pdf
+
+
+# ====== 秘密金鑰(若有 API key)======
+.env
+.env.local
+*.key
+secrets.json
+
+
+# ====== Colab 特有 ======
+.config/
+sample_data/
