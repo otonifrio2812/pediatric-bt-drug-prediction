@@ -1,0 +1,45 @@
+# Python >= 3.10 required (developed and tested with 3.11)
+#
+# 安裝方式:
+#   pip install -r requirements.txt
+#
+# 或建虛擬環境後安裝(推薦):
+#   python3 -m venv .venv
+#   source .venv/bin/activate
+#   pip install -r requirements.txt
+
+# === 核心數據處理 ===
+numpy>=1.24,<2.0
+pandas>=2.0,<3.0
+pyarrow>=14.0          # parquet 檔案讀寫
+openpyxl>=3.1          # 讀取 GDSC2 .xlsx
+
+# === 機器學習 ===
+scikit-learn>=1.3,<2.0
+xgboost>=2.0,<3.0
+joblib>=1.3
+shap>=0.45             # NumPy 2.x 相容版本
+
+# === 化學特徵工程 ===
+rdkit>=2023.9          # Morgan Fingerprint
+pubchempy>=1.0.4       # 從藥名查 SMILES
+
+# === 視覺化 ===
+matplotlib>=3.7
+seaborn>=0.13
+
+# === 互動 Widget(Stage 6 Tool A)===
+ipywidgets>=8.0
+jupyter>=1.0
+notebook>=7.0
+
+# === PDF 報告生成(Stage 6 Tool C)===
+reportlab>=4.0
+
+# === Notebook 環境(本機跑時需要,Colab 已有)===
+ipykernel>=6.25
+
+# === 開發輔助(可選)===
+# black           # 程式碼格式化
+# isort           # import 排序
+# pre-commit      # git hook

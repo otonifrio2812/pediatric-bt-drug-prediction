@@ -1,0 +1,44 @@
+# 這個檔案讓 GitHub 在 repo 頁面右側自動顯示「Cite this repository」按鈕
+# 也讓 Zenodo 自動匯出正確的引用格式
+# 詳見:https://citation-file-format.github.io/
+
+cff-version: 1.2.0
+title: "Pediatric High-Grade Glioma Drug Sensitivity Prediction"
+message: "If you use this software in your research, please cite it as below."
+type: software
+
+authors:
+  - family-names: "Lin"
+    given-names: "Chia-Ying"
+    name-particle: "林"
+    # ORCID 取得方式:免費註冊 https://orcid.org/ 後填上
+    # orcid: "https://orcid.org/0000-0000-0000-0000"
+    affiliation: "Pediatric Oncology Nursing"
+    email: "your.email@example.com"     # ← 改成您的 email
+  - family-names: "Tung"
+    given-names: "Chun-Wei"
+    affiliation: "Institute of Biotechnology and Pharmaceutical Research, NHRI"
+    # orcid: "https://orcid.org/..."     # ← Tung 教授的 ORCID(若有)
+
+repository-code: "https://github.com/otonifrio2812/pediatric-bt-drug-prediction"
+# 若投稿並 archive 到 Zenodo,在此貼 DOI:
+# identifiers:
+#   - type: doi
+#     value: 10.5281/zenodo.XXXXXXX
+
+# 關鍵字(讓人在 GitHub topics 搜尋找到您)
+keywords:
+  - "pediatric oncology"
+  - "drug sensitivity prediction"
+  - "glioma"
+  - "glioblastoma"
+  - "neuroblastoma"
+  - "machine learning"
+  - "XGBoost"
+  - "SHAP"
+  - "TRIPOD-AI"
+  - "GDSC2"
+
+license: MIT
+version: "1.0.0"
+date-released: "2026-XX-XX"   # ← 您正式 release 時填上日期
